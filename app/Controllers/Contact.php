@@ -2,31 +2,72 @@
 
 namespace App\Controllers;
 
-use CodeIgniter\Controller;
-use App\Models\OrderModel;
+use App\Models\ContactModel;
 
-class Contact extends Controller
+class Contact extends BaseController
 {
+    protected $contactModel;
+
+    public function __construct()
+    {
+        $this->contactModel = new ContactModel();
+    }
+
     public function index()
+    {
+        return view('contact_list', [
+            'contacts' => $this->contactModel->findAll()
+        ]);
+    }
+
+    public function create()
     {
         return view('contact_form');
     }
 
-    public function submit()
+    public function store()
     {
-        $orderModel = new OrderModel();
-
         $data = [
-            'name' => $this->request->getPost('name'),
-            'email' => $this->request->getPost('email'),
-            'phone' => $this->request->getPost('phone'),
-            'vehicle' => $this->request->getPost('vehicle'),
-            'service' => $this->request->getPost('service'),
-            'message' => $this->request->getPost('message'),
+            'name'    => $this->request->getPost('name'),
+            'email'   => $this->request->getPost('email'),
+            'phone'   => $this->request->getPost('phone'),
+            'message' => $this->request->getPost('message')
         ];
 
-        $orderModel->insert($data);
+        $this->contactModel->insert($data);
 
-        return view('contact_result', $data);
+        return redirect()->to('/contact');
+    }
+
+    public function edit($id)
+    {
+        $contact = $this->contactModel->find($id);
+
+        return view('contact_edit_form', [
+            'contact' => $contact
+        ]);
+    }
+
+    public function update()
+    {
+        $id = $this->request->getPost('id');
+
+        $data = [
+            'name'    => $this->request->getPost('name'),
+            'email'   => $this->request->getPost('email'),
+            'phone'   => $this->request->getPost('phone'),
+            'message' => $this->request->getPost('message')
+        ];
+
+        $this->contactModel->update($id, $data);
+
+        return redirect()->to('/contact');
+    }
+
+    public function delete($id)
+    {
+        $this->contactModel->delete($id);
+
+        return redirect()->to('/contact');
     }
 }

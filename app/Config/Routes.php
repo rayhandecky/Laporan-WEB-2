@@ -20,13 +20,11 @@ $routes->get('/', 'Home::index');
 // Routes untuk halaman contact
 $routes->get('/contact', 'Contact::index');
 $routes->post('/contact/submit', 'Contact::submit');
-$routes->get('/order', 'Order::index');
-$routes->get('/order/create', 'Order::create');
-$routes->post('/order/store', 'Order::store');
-$routes->get('/order/edit/(:num)', 'Order::edit/$1');
-$routes->post('/order/update/(:num)', 'Order::update/$1');
-$routes->get('/order/delete/(:num)', 'Order::delete/$1');
-
+$routes->get('/paket', 'Paket::index'); // Halaman daftar paket umrah
+$routes->get('/paket/detail/(:segment)', 'Paket::detail/$1'); // Halaman detail paket umrah
+$routes->post('/paket/order', 'Paket::order'); // Halaman pemesanan paket umrah
+$routes->get('/jadwal', 'Jadwal::index'); // Halaman jadwal keberangkatan umrah
+$routes->get('/jadwal/detail/(:segment)', 'Jadwal::detail/$1'); // Halaman detail jadwal keberangkatan
 
 // Additional Routing
 if (file_exists(SYSTEMPATH . 'Config/Routes.php')) {

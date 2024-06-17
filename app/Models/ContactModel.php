@@ -8,5 +8,5 @@ class ContactModel extends Model
 {
     protected $table = 'contacts';
     protected $primaryKey = 'id';
-    protected $allowedFields = ['name', 'email', 'phone', 'vehicle', 'service', 'message'];
+    protected $allowedFields = ['name', 'email', 'phone', 'message'];
 }
